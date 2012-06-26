@@ -1,7 +1,6 @@
 package w32uptime
 
 import (
-	"bytes"
 	"encoding/binary"
 	"errors"
 	"github.com/AllenDang/w32"
@@ -18,6 +17,14 @@ const (
 type Uptime struct {
 	Start time.Time
 	End   time.Time
+}
+
+type Bytes []byte
+
+func (this Bytes) Read(p []byte) (int, error) {
+	n := copy(p, this[0:len(p)])
+	this = this[n:]
+	return n, nil
 }
 
 func ReadAll() ([]Uptime, error) {
@@ -41,7 +48,7 @@ func ReadAll() ([]Uptime, error) {
 
 		offset = 0
 		for offset < read {
-			in := bytes.NewBuffer(buffer[offset : offset+recordsize])
+			in := Bytes(buffer[offset : offset+recordsize])
 			err := binary.Read(in, binary.LittleEndian, &record)
 			if err != nil {
 				return nil, err
@@ -50,8 +57,8 @@ func ReadAll() ([]Uptime, error) {
 			eventid := record.EventID & 0xFFFF
 			tm := time.Unix(int64(record.TimeGenerated), 0)
 			if findstart && eventid == EVENT_ID_STARTUP {
-				findstart = false
 				curUptime.Start = tm
+				findstart = false
 			} else if !findstart {
 				// there is no corresponding shutdown entry in the log
 				// we just take the time of the last event in the log as the shutdown date
