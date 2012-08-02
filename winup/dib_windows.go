@@ -2,10 +2,10 @@ package main
 
 import (
 	"code.google.com/p/draw2d/draw2d"
-	"github.com/skelterjohn/go.wde/win"
 	"code.google.com/p/freetype-go/freetype/raster"
+	"github.com/skelterjohn/go.wde/win"
 	"image/color"
-	"image/draw"	
+	"image/draw"
 )
 
 func NewGraphicContext(img draw.Image) *draw2d.ImageGraphicContext {
@@ -44,9 +44,9 @@ func (r *DIBPainter) Paint(ss []raster.Span, done bool) {
 		if s.X0 >= s.X1 {
 			continue
 		}
-	
-		i0 :=(r.Image.Rect.Max.Y-s.Y-r.Image.Rect.Min.Y-1)*r.Image.Stride + (s.X0-r.Image.Rect.Min.X)*3
-		i1 := i0 + (s.X1-s.X0) * 3
+
+		i0 := (r.Image.Rect.Max.Y-s.Y-r.Image.Rect.Min.Y-1)*r.Image.Stride + (s.X0-r.Image.Rect.Min.X)*3
+		i1 := i0 + (s.X1-s.X0)*3
 		for i := i0; i < i1; i += 3 {
 			r.Image.Pix[i+0] = uint8(r.cb)
 			r.Image.Pix[i+1] = uint8(r.cg)
