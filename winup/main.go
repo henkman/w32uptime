@@ -110,7 +110,10 @@ func drawUptimes(gc draw2d.GraphicContext) {
 		upday := make([]w32uptime.Uptime, 0)
 		for e := u; e < len(uptimes); e++ {
 			if uptimes[e].Start.After(eday) {
-				u = e
+				u = e - 1
+				if u < 0 {
+					u = 0
+				}
 				break
 			}
 
