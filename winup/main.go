@@ -160,7 +160,7 @@ func drawUptimes(gc draw2d.GraphicContext) {
 	gc.Stroke()
 }
 
-func drawarrowButtons(gc draw2d.GraphicContext) {
+func drawArrowButtons(gc draw2d.GraphicContext) {
 	for _, ab := range arrowButtons {
 		ab.Paint(gc)
 	}
@@ -181,7 +181,7 @@ func drawBackground(gc draw2d.GraphicContext) {
 func redraw(gc draw2d.GraphicContext) {
 	drawBackground(gc)
 	drawUptimes(gc)
-	drawarrowButtons(gc)
+	drawArrowButtons(gc)
 	drawInfoarea(gc)
 }
 
