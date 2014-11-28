@@ -4,7 +4,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"github.com/AllenDang/w32"
-	"syscall"
 	"time"
 	"unsafe"
 )
@@ -37,7 +36,7 @@ func ReadAll() ([]Uptime, error) {
 	buffer := make([]byte, 1024*64)
 	recordsize = uint32(unsafe.Sizeof(record))
 
-	eventlog := w32.OpenEventLog(nil, syscall.StringToUTF16Ptr("system"))
+	eventlog := w32.OpenEventLog("", "system")
 	if eventlog == 0 {
 		return nil, errors.New("could not open event log")
 	}
